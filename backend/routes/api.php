@@ -26,6 +26,7 @@ Route::middleware(['api'])->group(function() {
     Route::get('/unauthenticated',[AuthController::class, 'unauthenticated'])->name('unauthenticated');
     Route::middleware('auth:api')->group(function() {
         Route::put('/session',[AuthController::class, 'refresh']);
+        Route::get('/reminders', [TaskController::class, 'index']);
         Route::post('/reminders', [TaskController::class, 'store']);
         Route::get('/reminders/{id}', [TaskController::class, 'view']);
         Route::put('/reminders/{id}', [TaskController::class, 'update']);

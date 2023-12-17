@@ -1,29 +1,49 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-</script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div class="wrapper">
+    <template v-if="currentRouteName !== 'login'">
+      <Headers />
+      <Sidebar />
+    </template>
+    <router-view />
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+<script>
+  import Headers from './components/Headers.vue';
+  import Sidebar from './components/Sidebar.vue';
+  import { useStore } from "vuex";
+  import { computed, onMounted, defineComponent } from "vue";
+  import { useRouter } from "vue-router";
+  
+  
+  
+  export default defineComponent({
+    components: {
+      Headers,
+      Sidebar
+    },
+    setup() {
+      const store = useStore();
+      const router = useRouter();
+      const sitebody = document.body;
+
+      onMounted(() =>{
+        setTimeout(() => {
+          if(router.currentRoute.value.name == 'login'){
+            sitebody.classList.add("login-page");
+          }
+          
+        }, 1000);
+      })
+  
+      const currentRouteName = computed(() => {
+        return router.currentRoute.value.name;
+      })
+  
+      return{
+        currentRouteName
+      }
+    }
+  })
+</script>

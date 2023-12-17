@@ -10,6 +10,22 @@ Use Exception;
 
 class TaskController extends Controller
 {
+    public function index()
+    {
+        $list               = (new TaskService())->Tasksql();
+
+        if(request()->limit){
+            $list           = $list->paginate(request()->limit);
+        }else{
+            $list           = $list->get();
+        }
+
+        return response()->json([
+            'oke'   => true,
+            'data'  => $list,
+            'limit' => request()->limit
+        ]);
+    }
     public function store(Request $request, TaskService $task)
     {
         $validator = \Validator::make($request->all(), [

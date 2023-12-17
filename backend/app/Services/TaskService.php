@@ -31,8 +31,8 @@ class TaskService
     
             $task->title        = $data->title;
             $task->description  = $data->description;
-            $task->remind_at    = $data->remind_at;
-            $task->event_at     = $data->event_at;
+            $task->remind_at    = date('Y-m-d h:i:s', strtotime($data->remind_at));
+            $task->event_at     = date('Y-m-d h:i:s', strtotime($data->event_at));
     
             $task->save();
 
